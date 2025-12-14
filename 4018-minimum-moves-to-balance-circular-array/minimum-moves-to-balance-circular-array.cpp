@@ -5,7 +5,6 @@ public:
     int idx = -1;
     long long need = 0, total = 0;
 
-    // Find negative index and total balance
     for (int i = 0; i < n; i++) {
         total += balance[i];
         if (balance[i] < 0) {
@@ -14,20 +13,17 @@ public:
         }
     }
 
-    // If total balance is negative, impossible
     if (total < 0) return -1;
 
-    // If no one is negative
     if (need == 0) return 0;
 
     long long ans = 0;
 
-    // Expand outward from idx
+
     for (int d = 1; d < n && need > 0; d++) {
         int left = (idx - d + n) % n;
         int right = (idx + d) % n;
 
-        // Take from left
         if (balance[left] > 0 && need > 0) {
             long long take = min((long long)balance[left], need);
             ans += take * d;
@@ -35,7 +31,6 @@ public:
             balance[left] -= take;
         }
 
-        // Take from right (if different index)
         if (left != right && balance[right] > 0 && need > 0) {
             long long take = min((long long)balance[right], need);
             ans += take * d;
