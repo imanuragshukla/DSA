@@ -2,7 +2,7 @@ class Solution {
 public:
     int minimumPairRemoval(vector<int>& nums) {
         int n = nums.size();
-        vector<bool> valid(n, true);
+       
         int count = 0;
 
         for (int j = 0; j < n - 1; j++) {
@@ -14,7 +14,7 @@ public:
             int prev = INT_MIN;
 
             for (int i = 0; i < n; i++) {
-                if (!valid[i]) continue;
+                if (nums[i]==1001) continue;
 
                 if (nums[i] < prev) flag = true;
                 prev = nums[i];
@@ -24,7 +24,7 @@ public:
 
                 if (cnt == 2) {
                     if (sum < mini) {
-                        mini = sum;   // ✅ FIX
+                        mini = sum;   
                         idx = i;
                     }
                     cnt = 1;
@@ -35,10 +35,10 @@ public:
             if (!flag) return count;
 
             int k = idx - 1;
-            while (k >= 0 && !valid[k]) k--;
+            while (k >= 0 && nums[k]==1001) k--;
 
-            nums[k] = mini;   // ✅ FIX
-            valid[idx] = false;
+            nums[k] = mini;
+            nums[idx] = 1001;
             count++;
         }
 
