@@ -11,25 +11,23 @@
  */
 class Solution {
 public:
-    TreeNode* pp(vector<int>&preorder,int i1,int j1,vector<int>&inorder,int i2,int j2,map<int,int>&m){
-        if(i1>j1 || i2>j2)return NULL;
-
-        TreeNode *root = new TreeNode(preorder[i1]);
-
-        int ss1 = m[root->val];
-        int rem = ss1 - i2;
-        root->left = pp(preorder,i1+1,i1+rem,inorder,i2,ss1-1,m);
-        root->right = pp(preorder,i1+rem+1,j1,inorder,ss1+1,j2,m);
-        return root;
-
-
-    }
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        map<int,int>inMap;
-       for(int i =0;i<inorder.size();i++){
-        inMap[inorder[i]]=i;
-       }
-       TreeNode* root = pp(preorder,0,preorder.size()-1,inorder,0,inorder.size()-1,inMap);
-       return root;
+        map<int,int>m;
+        for(int i =0;i<inorder.size();i++){
+            m[inorder[i]]=i;
+        }
+        TreeNode* root = build(preorder,0,preorder.size()-1,inorder,0,inorder.size()-1,m);
+        return root;
     }
+    TreeNode* build(vector<int>&preorder,int i1,int j1,vector<int>&inorder,int i2,int j2,map<int,int>&m){
+        if(i1>j1|| i2>j2)return NULL;
+        TreeNode* root = new TreeNode(preorder[i1]);
+
+        int a1 = m[root->val];
+        int rem = a1 - i2;
+        root->left = build(preorder,i1+1,i1+rem,inorder,i2,j2-1,m);
+        root->right = build(preorder,i1+rem+1,j1,inorder,a1+1,j2,m);
+        return root;
+    }
+
 };
